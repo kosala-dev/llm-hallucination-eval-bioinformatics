@@ -1,0 +1,85 @@
+{
+  "dev|A": {
+    "n": 10,
+    "accuracy": 0.55,
+    "halluc": "5/10",
+    "halluc_rate": 0.5,
+    "halluc_95ci": [
+      0.237,
+      0.763
+    ],
+    "abstain_rate": 0.0,
+    "over_abstain": "0/7",
+    "trap_score": 0.5
+  },
+  "dev|B": {
+    "n": 10,
+    "accuracy": 0.65,
+    "halluc": "3/10",
+    "halluc_rate": 0.3,
+    "halluc_95ci": [
+      0.108,
+      0.603
+    ],
+    "abstain_rate": 0.2,
+    "over_abstain": "0/7",
+    "trap_score": 0.833
+  },
+  "test|A": {
+    "n": 20,
+    "accuracy": 0.6,
+    "halluc": "9/20",
+    "halluc_rate": 0.45,
+    "halluc_95ci": [
+      0.258,
+      0.658
+    ],
+    "abstain_rate": 0.1,
+    "over_abstain": "0/15",
+    "trap_score": 0.4
+  },
+  "test|B": {
+    "n": 20,
+    "accuracy": 0.9,
+    "halluc": "0/20",
+    "halluc_rate": 0.0,
+    "halluc_95ci": [
+      -0.0,
+      0.161
+    ],
+    "abstain_rate": 0.25,
+    "over_abstain": "1/15",
+    "trap_score": 1.0
+  },
+  "all|A": {
+    "n": 30,
+    "accuracy": 0.583,
+    "halluc": "14/30",
+    "halluc_rate": 0.467,
+    "halluc_95ci": [
+      0.302,
+      0.639
+    ],
+    "abstain_rate": 0.067,
+    "over_abstain": "0/22",
+    "trap_score": 0.438
+  },
+  "all|B": {
+    "n": 30,
+    "accuracy": 0.817,
+    "halluc": "3/30",
+    "halluc_rate": 0.1,
+    "halluc_95ci": [
+      0.035,
+      0.256
+    ],
+    "abstain_rate": 0.233,
+    "over_abstain": "1/22",
+    "trap_score": 0.938
+  },
+  "paired_test": {
+    "A_only_halluc": 9,
+    "B_only_halluc": 0,
+    "sign_test_p": 0.004
+  }
+}
