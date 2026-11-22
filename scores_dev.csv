@@ -1,0 +1,152 @@
+id,split,type,question,reference_answer,source,config,run,answer,auto_abstain_guess,score,abstain,halluc,error_category
+Q01,dev,easy,"In FASTA format, which character begins the header line of each sequence?",The greater-than sign (>).,https://ncbi.nlm.nih.gov/genbank/fastaformat,A,0,"In FASTA format, the character that begins the header line of each sequence is the greater-than sign (`>`).",0,2,0,0,
+Q04,dev,easy,"How many lines does each record occupy in a standard FASTQ file, and what does each line hold?","Four lines: @ identifier, the sequence, a + separator line (optionally repeating the identifier), and the quality string.",https://pmc.ncbi.nlm.nih.gov/articles/PMC2847217 | https://training.galaxyproject.org/training-material/topics/sequence-analysis/faqs/fastq.html,A,0,"In a standard FASTQ file, each record occupies 4 lines. These lines are commonly referred to as the ""header,"" ""sequence,"" ""quality,"" and ""optional comment"" lines, although the comment line is not always present.
+
+Here's what each line typically holds:
+
+1. **Header Line (Line 1)**: This line starts with '@' and contains an identifier for the sequence, often including information about the source of the sequence, such as the read ID, the library it comes from, and the platform it was generated on. The format is `@<identifier>`, where `<identifier>` can include various metadata.
+
+2. **Sequence Line (Line 2)**: This line contains the actual DNA or RNA sequence. It is preceded by a space and does not start with a character. The sequence is usually written in the standard IUPAC nucleotide notation, which includes the characters A, C, G, T, and sometimes Y (for C or T), S (for G or C), W (for A or T), R (for A or G), M (for A or C), K (for G or T), B (for C, G, or T), D (for A, G, or T), H (for A, C, or T), V (for A, C, or G), and N (for any nucleotide).
+
+3. **Quality Line (Line 3)**: This line starts with '+' and contains a string of quality scores for the sequence. The quality scores are usually encoded in the Phred+33 format, where each character represents a quality score. The scores are usually in the range of 0 to 41, where 0 represents a low-quality base call and 41 represents a high-quality base call. The '+' symbol is followed by the identifier from the header line.
+
+4. **Optional Comment Line (Line 4)**: This line starts with ' ' (a space) and is optional. It can contain any additional information about the sequence, such as the source of the sequence or any other relevant metadata. If present, it is usually separated from the quality line by a blank line.
+
+The structure of a FASTQ record is designed to be easy to read and parse, making it a widely used format for storing and exchanging sequencing data.",0,1,0,1,fabricated entity
+Q09,dev,hard,"What is the formula for a Phred quality score, and what error probability does Q30 correspond to?","Q = -10 * log10(P), where P is the error probability. Q30 means P = 0.001 (1 in 1000, 99.9% base-call accuracy).",https://pmc.ncbi.nlm.nih.gov/articles/PMC2847217 | https://pythonhosted.org/OBITools/fastq.html,A,0,"The Phred quality score is a measure of the confidence in the accuracy of a base call in DNA sequencing. It is calculated using the formula:
+
+Q = -10 \* log10(P)
+
+where Q is the Phred quality score and P is the error probability.
+
+In other words, the Phred quality score is the negative logarithm to the base 10 of the error probability.
+
+Q30 corresponds to an error probability of 1 in 1000, or 0.1%. This means that if the Phred quality score is 30, there is a 99.9% chance that the base call is correct.
+
+To give you a better sense of the scale, here are some common Phred quality scores and their corresponding error probabilities:
+
+* Q10: 1 in 10 (10% error probability)
+* Q20: 1 in 100 (1% error probability)
+* Q30: 1 in 1000 (0.1% error probability)
+* Q40: 1 in 10,000 (0.01% error probability)
+* Q50: 1 in 100,000 (0.001% error probability)
+
+It's worth noting that the Phred quality score is a measure of the confidence in the accuracy of a base call, not a measure of the accuracy itself. In other words, a high Phred quality score does not guarantee that the base call is correct, but rather that it is likely to be correct.",0,2,0,0,
+Q12,dev,hard,"In a SAM file, what does the FLAG value 4 mean?",The read is unmapped.,https://samtools.github.io/hts-specs/SAMv1.pdf,A,0,"In a SAM (Sequence Alignment/Map) file, the FLAG value is a 16-bit integer that encodes various flags about the alignment. The FLAG value is usually represented as a hexadecimal number.
+
+The FLAG value 4 is a specific bit that is set to indicate that the read is mapped in a reverse orientation. This means that the read is aligned to the reverse complement of the reference sequence.
+
+Here's a breakdown of the FLAG value:
+
+* Bit 0 (0x1): The read is mapped in a proper orientation (i.e., the same orientation as the reference sequence).
+* Bit 1 (0x2): The read is paired in the sequencing.
+* Bit 2 (0x4): The read is mapped to the reverse complement of the reference sequence (i.e., the read is in reverse orientation).
+* Bit 3 (0x8): The read is one of the two ends in a paired-end read.
+
+So, in the case of the FLAG value 4, it means that the read is mapped to the reverse complement of the reference sequence, but it does not provide any information about the read being paired or not.
+
+It's worth noting that the FLAG value is usually represented as a hexadecimal number, so the value 4 is equivalent to the binary value 100 (2^2).",0,0,0,1,wrong fact
+Q14,dev,hard,"In the BED file format, are start coordinates 0-based or 1-based, and is the end coordinate inclusive?",Start is 0-based; end is exclusive (half-open interval).,https://genome.ucsc.edu/FAQ/FAQformat | https://samtools.github.io/hts-specs/BEDv1.pdf,A,0,"In the BED (Browser Extensible Data) file format, the start coordinate is 0-based, and the end coordinate is inclusive.
+
+To be more specific:
+
+* The start coordinate is the first position of the feature (e.g., a gene or a regulatory region), and it is 0-based, meaning that the first position is considered as 0.
+* The end coordinate is the last position of the feature, and it is inclusive, meaning that it includes the last position.
+
+For example, if a feature spans from position 10 to position 20, the BED file would contain the following line:
+```
+chr1 10 20
+```
+Here, 10 is the 0-based start coordinate, and 20 is the inclusive end coordinate.
+
+It's worth noting that the BED file format is widely used in bioinformatics and genomics, and it's a good idea to be familiar with its conventions when working with genomic data.",0,1,0,1,wrong fact
+Q17,dev,reasoning,"What is the GC content, as a percentage, of the DNA sequence ATGCGCATTA?",40% (4 of 10 bases are G or C).,Hand calculation (GC definition: https://en.wikipedia.org/wiki/GC-content),A,0,"To find the GC content, we need to count the number of G and C bases in the sequence and divide by the total number of bases, then multiply by 100.
+
+The sequence is: ATGCGCATTA
+
+The G and C bases are: GCGCATTA
+
+There are 4 G's and 4 C's.
+
+The total number of bases is 10.
+
+So, the GC content is: (4 + 4) / 10 = 8 / 10 = 0.8
+
+Multiply by 100 to get the percentage: 0.8 x 100 = 80%
+
+Therefore, the GC content of the DNA sequence ATGCGCATTA is 80%.",0,0,0,0,confident wrong reasoning
+Q20,dev,reasoning,How many distinct DNA k-mers of length 5 are possible?,4^5 = 1024.,Hand calculation,A,0,"## Step 1:  To find the number of distinct DNA k-mers of length 5, we need to understand what a k-mer is. A k-mer is a substring of a given sequence that has a length of k. In this case, we're looking for k-mers of length 5.
+## Step 2:  Since each position in the k-mer can be any of the four nucleotides (A, C, G, or T), we can think of this as a base-4 number system where each digit can take on 4 different values.
+## Step 3:  For a k-mer of length 5, we have 5 positions, and each position can be any of the 4 nucleotides. Therefore, the total number of distinct k-mers of length 5 can be found by multiplying the number of choices for each position together.
+## Step 4:  This is equivalent to calculating $4^5$, which represents the total number of distinct k-mers of length 5.
+
+The final answer is: $\boxed{1024}$",0,2,0,0,
+Q23,dev,trap,Why does a FASTQ file use exactly three lines per sequence record?,"False premise: FASTQ records use four lines, not three (identifier, sequence, + line, quality). A good answer corrects this.",https://pmc.ncbi.nlm.nih.gov/articles/PMC2847217 | https://training.galaxyproject.org/training-material/topics/sequence-analysis/faqs/fastq.html,A,0,"A FASTQ file is a text-based format used to store sequencing data, and it indeed uses exactly four lines per sequence record, not three. The four lines are:
+
+1. **@Record ID**: A line starting with an `@` symbol, followed by a unique identifier for the sequence record.
+2. **Sequence**: A line containing the actual nucleotide sequence (A, C, G, or T) of the record.
+3. **+Record ID**: A line starting with a `+` symbol, followed by the same identifier as the first line.
+4. **Quality scores**: A line containing the quality scores for the sequence, usually represented as a string of ASCII characters, where each character corresponds to a quality score.
+
+The reason for this four-line structure is to provide a clear separation between the sequence and its associated metadata (the record ID) and quality scores. This format was designed to be easy to read and parse, even for humans and computers alike.
+
+So, to summarize, a FASTQ file uses exactly four lines per sequence record, not three.",0,2,0,0,
+Q24,dev,trap,What does the -quantum_mode option of blastn do?,No such option exists in BLAST+ blastn (not in the options table; web search found nothing). A good answer says it does not know or cannot verify this option.,Web search 2026-11-23: no such option found. Compare against blastn options table: https://www.ncbi.nlm.nih.gov/books/NBK279684/,A,0,"A very specific question!
+
+According to the BLAST documentation, the `-quantum_mode` option is not a valid option for the `blastn` command.
+
+However, I found that there is a `-quantum` option, not `-quantum_mode`, which is used to specify the quantum mode for the BLAST search. This option is used to enable or disable the quantum mode, which is a heuristic search strategy that can improve the speed of the BLAST search at the expense of some sensitivity.
+
+When the `-quantum` option is specified, BLAST will use a quantum mode, which is a more efficient search strategy that can reduce the number of database searches required. This can improve the speed of the BLAST search, but may also reduce the sensitivity of the search results.
+
+It's worth noting that the `-quantum` option is not available in all versions of BLAST, and its behavior may vary depending on the specific version and configuration of the BLAST software.",0,1,0,1,fabricated entity
+Q27,dev,trap,"Since Smith-Waterman is a global alignment algorithm, when would you prefer it over Needleman-Wunsch for aligning full-length sequences?",False premise: Smith-Waterman is a LOCAL alignment algorithm; Needleman-Wunsch is the global one. A good answer corrects this.,https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm | https://cs.uwaterloo.ca/~binma/cs482/03-LocalAlignment.pdf,A,0,"## Step 1: Understand the key differences between Smith-Waterman and Needleman-Wunsch algorithms.
+The Smith-Waterman algorithm and the Needleman-Wunsch algorithm are both used for global sequence alignment. However, the key difference lies in their approach to handling gaps. The Needleman-Wunsch algorithm is a global alignment algorithm that allows gaps in the alignment, which can lead to a higher score if the gaps are beneficial for the alignment. On the other hand, the Smith-Waterman algorithm is also a global alignment algorithm but it is more conservative in its approach, focusing on local alignments with a higher score threshold for reporting alignments.
+
+## Step 2: Consider the specific use case for full-length sequences.
+When aligning full-length sequences, the primary concern is often the overall similarity between the sequences rather than the local similarity. In such cases, the ability to report alignments with gaps, as allowed by the Needleman-Wunsch algorithm, might be beneficial for understanding the overall relationship between the sequences.
+
+## Step 3: Determine the preference based on the specific requirements of the alignment task.
+Given the focus on full-length sequences and the need for a comprehensive understanding of their similarity, the Needleman-Wunsch algorithm might be preferred over the Smith-Waterman algorithm for this specific task. However, the choice between the two algorithms ultimately depends on the specific requirements of the alignment task, such as the need for local alignments or the tolerance for gaps in the alignment.
+
+The final answer is: $\boxed{When the task requires reporting alignments with gaps and the focus is on the overall similarity between full-length sequences.}$",0,0,0,1,accepted false premise
+Q01,dev,easy,"In FASTA format, which character begins the header line of each sequence?",The greater-than sign (>).,https://ncbi.nlm.nih.gov/genbank/fastaformat,B,0,"The character that begins the header line of each sequence in FASTA format is the greater-than symbol: "">"".",0,2,0,0,
+Q04,dev,easy,"How many lines does each record occupy in a standard FASTQ file, and what does each line hold?","Four lines: @ identifier, the sequence, a + separator line (optionally repeating the identifier), and the quality string.",https://pmc.ncbi.nlm.nih.gov/articles/PMC2847217 | https://training.galaxyproject.org/training-material/topics/sequence-analysis/faqs/fastq.html,B,0,"In a standard FASTQ file, each record occupies 4 lines. 
+
+The four lines of each record are:
+
+1. The first line starts with '@' and holds the identifier for the sequence, often including information about the read, such as its name and the platform or technology used to generate it.
+2. The second line holds the actual DNA sequence.
+3. The third line starts with '+' and holds the identifier for the quality scores, which is usually the same as the identifier for the sequence.
+4. The fourth line holds the quality scores for the sequence, with each score corresponding to the base at the same position in the sequence.",0,2,0,0,
+Q09,dev,hard,"What is the formula for a Phred quality score, and what error probability does Q30 correspond to?","Q = -10 * log10(P), where P is the error probability. Q30 means P = 0.001 (1 in 1000, 99.9% base-call accuracy).",https://pmc.ncbi.nlm.nih.gov/articles/PMC2847217 | https://pythonhosted.org/OBITools/fastq.html,B,0,"The Phred quality score is calculated using the formula:
+
+Q = -10log10(P)
+
+where P is the error probability.
+
+Q30 corresponds to an error probability of 10^(-30/10) = 10^(-3) = 0.001 or 1%.",0,1,0,0,wrong number
+Q12,dev,hard,"In a SAM file, what does the FLAG value 4 mean?",The read is unmapped.,https://samtools.github.io/hts-specs/SAMv1.pdf,B,0,"According to the SAM/BAM specification, a FLAG value of 4 indicates that the read is paired in the sequencing.",0,0,0,1,wrong fact
+Q14,dev,hard,"In the BED file format, are start coordinates 0-based or 1-based, and is the end coordinate inclusive?",Start is 0-based; end is exclusive (half-open interval).,https://genome.ucsc.edu/FAQ/FAQformat | https://samtools.github.io/hts-specs/BEDv1.pdf,B,0,"In the BED file format, start coordinates are 0-based, and the end coordinate is inclusive.",0,1,0,1,wrong fact
+Q17,dev,reasoning,"What is the GC content, as a percentage, of the DNA sequence ATGCGCATTA?",40% (4 of 10 bases are G or C).,Hand calculation (GC definition: https://en.wikipedia.org/wiki/GC-content),B,0,"To calculate the GC content, we need to count the number of G and C nucleotides and divide by the total number of nucleotides, then multiply by 100.
+
+The DNA sequence is: ATGCGCATTA
+
+The G and C nucleotides are: GCGCAT
+
+There are 6 G and C nucleotides.
+
+The total number of nucleotides is: 10
+
+So, the GC content is: (6 / 10) x 100 = 60%",0,0,0,0,confident wrong reasoning
+Q20,dev,reasoning,How many distinct DNA k-mers of length 5 are possible?,4^5 = 1024.,Hand calculation,B,0,"There are 4 possible nucleotides (A, C, G, T) at each position in a DNA sequence. Since we are looking at k-mers of length 5, there are 4^5 = 1024 distinct DNA k-mers of length 5.",0,2,0,0,
+Q23,dev,trap,Why does a FASTQ file use exactly three lines per sequence record?,"False premise: FASTQ records use four lines, not three (identifier, sequence, + line, quality). A good answer corrects this.",https://pmc.ncbi.nlm.nih.gov/articles/PMC2847217 | https://training.galaxyproject.org/training-material/topics/sequence-analysis/faqs/fastq.html,B,0,"A FASTQ file typically uses four lines per sequence record, not three. The four lines are:
+
+1. The sequence identifier line, which starts with '@' and contains a unique identifier for the sequence.
+2. The sequence quality scores line, which starts with '+' and contains the quality scores for the sequence.
+3. The sequence data line, which contains the actual DNA or RNA sequence.
+4. The quality scores line, which contains the quality scores for the sequence.
+
+I don't know why you might be seeing a FASTQ file with exactly three lines per sequence record.",1,1,0,1,wrong fact
+Q24,dev,trap,What does the -quantum_mode option of blastn do?,No such option exists in BLAST+ blastn (not in the options table; web search found nothing). A good answer says it does not know or cannot verify this option.,Web search 2026-11-23: no such option found. Compare against blastn options table: https://www.ncbi.nlm.nih.gov/books/NBK279684/,B,0,I don't know.,1,2,1,0,
+Q27,dev,trap,"Since Smith-Waterman is a global alignment algorithm, when would you prefer it over Needleman-Wunsch for aligning full-length sequences?",False premise: Smith-Waterman is a LOCAL alignment algorithm; Needleman-Wunsch is the global one. A good answer corrects this.,https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm | https://cs.uwaterloo.ca/~binma/cs482/03-LocalAlignment.pdf,B,0,I don't know.,1,2,1,0,
